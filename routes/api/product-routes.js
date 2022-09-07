@@ -138,6 +138,22 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete one product by its `id` value
+  Product.destory({
+    where: {
+      id: req.params.id
+    }
+  })
+  .then(dbProducts => {
+    if (!dbProducts) {
+      res.status(400).json({ message: 'There is no product tag that mastches this id'});
+      return;
+    }
+    res.json(dbProducts);
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  });
 });
 
 module.exports = router;
